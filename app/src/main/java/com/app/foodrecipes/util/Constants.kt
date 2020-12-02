@@ -2,9 +2,9 @@ package com.app.foodrecipes.util
 
 class Constants {
 
-    companion object{
+    companion object {
 
-        const val BASE_URL ="https://api.spoonacular.com"
+        const val BASE_URL = "https://api.spoonacular.com"
         const val API_KEY = "84e72eef7e914b9da208a56a5ac77465"
 
         // API Query Keys
@@ -18,5 +18,17 @@ class Constants {
         // Room Database
         const val DATABASE_NAME = "recipes_database"
         const val RECIPES_TABLE = "recipes_table"
+
+        // Bottom Sheet and Preferences
+        const val DEFAULT_RECIPES_NUMBER = "30"
+        const val DEFAULT_MEAL_TYPE = "main course"
+        const val DEFAULT_DIET_TYPE = "gluten free"
+
+        const val PREFERENCES_NAME = "foodRecipes_preferences"
+        const val PREFERENCES_MEAL_TYPE = "mealType"
+        const val PREFERENCES_MEAL_TYPE_ID = "mealTypeId"
+        const val PREFERENCES_DIET_TYPE = "dietType"
+        const val PREFERENCES_DIET_TYPE_ID = "dietTypeId"
+
     }
 }
