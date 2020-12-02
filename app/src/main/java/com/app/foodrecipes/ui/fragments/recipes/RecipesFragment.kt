@@ -16,14 +16,16 @@ import com.app.foodrecipes.viewmodels.MainViewModel
 import com.app.foodrecipes.R
 import com.app.foodrecipes.adapters.RecipesAdapter
 import com.app.foodrecipes.databinding.FragmentRecipesBinding
-import com.app.foodrecipes.util.Constants.Companion.API_KEY
+import com.app.foodrecipes.util.NetworkListener
 import com.app.foodrecipes.util.NetworkResult
 import com.app.foodrecipes.util.observeOnce
 import com.app.foodrecipes.viewmodels.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_recipes.view.*
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class RecipesFragment : Fragment() {
 
@@ -33,13 +35,15 @@ class RecipesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var mainViewModel: MainViewModel
-    private lateinit var recipeViewModel: RecipesViewModel
+    private lateinit var recipesViewModel: RecipesViewModel
     private val mAdapter by lazy { RecipesAdapter() }
+
+    private lateinit var networkListener: NetworkListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        recipeViewModel = ViewModelProvider(requireActivity()).get(RecipesViewModel::class.java)
+        recipesViewModel = ViewModelProvider(requireActivity()).get(RecipesViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -54,8 +58,22 @@ class RecipesFragment : Fragment() {
         setupRecyclerView()
         readDatabase()
 
+        lifecycleScope.launch {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect { status ->
+                    Log.d("NetworkListener", status.toString())
+                    recipesViewModel.networkStatus = status
+                    recipesViewModel.showNetworkStatus()
+                }
+        }
+
         binding.recipesFab.setOnClickListener {
-            findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+            if (recipesViewModel.networkStatus) {
+                findNavController().navigate(R.id.action_recipesFragment_to_recipesBottomSheet)
+            } else {
+                recipesViewModel.showNetworkStatus()
+            }
         }
 
         return binding.root
@@ -70,7 +88,7 @@ class RecipesFragment : Fragment() {
     private fun readDatabase() {
         lifecycleScope.launch {
             mainViewModel.readRecipes.observeOnce(viewLifecycleOwner, { database ->
-                if (database.isNotEmpty() && !args.backFromBottomSheet){
+                if (database.isNotEmpty() && !args.backFromBottomSheet) {
                     Log.d("RecipesFragment", "readDatabase called!")
                     mAdapter.setData(database[0].foodRecipe)
                     hideShimmerEffect()
@@ -83,9 +101,9 @@ class RecipesFragment : Fragment() {
 
     private fun requestApiData() {
         Log.d("RecipesFragment", "requestApiData called!")
-        mainViewModel.getRecipes(recipeViewModel.applyQueries())
+        mainViewModel.getRecipes(recipesViewModel.applyQueries())
         mainViewModel.recipesResponse.observe(viewLifecycleOwner, { response ->
-            when(response){
+            when (response) {
                 is NetworkResult.Success -> {
                     hideShimmerEffect()
                     response.data?.let { mAdapter.setData(it) }
@@ -106,10 +124,10 @@ class RecipesFragment : Fragment() {
         })
     }
 
-    private fun loadDataFromCache(){
+    private fun loadDataFromCache() {
         lifecycleScope.launch {
-            mainViewModel.readRecipes.observe(viewLifecycleOwner, {database ->
-                if(database.isNotEmpty()){
+            mainViewModel.readRecipes.observe(viewLifecycleOwner, { database ->
+                if (database.isNotEmpty()) {
                     mAdapter.setData(database[0].foodRecipe)
                 }
             })
