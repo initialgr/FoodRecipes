@@ -22,4 +22,10 @@
     <color name="green">#00c980</color>
 
     <color name="transparent">#00FFFFFF</color>
+
+    // Custom Chip Style
+    <color name="checkedChipBackgroundColor">#206200EA</color>
+    <color name="chipBackgroundColor">@color/lightGray</color>
+    <color name="checkedChipTextColor">@color/colorPrimary</color>
+    <color name="chipTextColor">@color/darkGray</color>
 </resources>
