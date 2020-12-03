@@ -10,6 +10,7 @@ import coil.load
 import com.app.foodrecipes.R
 import com.app.foodrecipes.models.Result
 import kotlinx.android.synthetic.main.fragment_overview.view.*
+import org.jsoup.Jsoup
 
 class OverviewFragment : Fragment() {
 
@@ -19,7 +20,6 @@ class OverviewFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_overview, container, false)
-
         val args = arguments
         val myBundle: Result? = args?.getParcelable("recipeBundle")
 
@@ -27,7 +27,10 @@ class OverviewFragment : Fragment() {
         view.title_textView.text = myBundle?.title
         view.likes_textView.text = myBundle?.aggregateLikes.toString()
         view.time_textView.text = myBundle?.readyInMinutes.toString()
-        view.summary_textView.text = myBundle?.summary
+        myBundle?.summary.let {
+            val summary = Jsoup.parse(it).text()
+            view.summary_textView.text = summary
+        }
 
         if (myBundle?.vegetarian == true) {
             view.vegetarian_imageView.setColorFilter(ContextCompat.getColor(requireContext(), R.color.green))
