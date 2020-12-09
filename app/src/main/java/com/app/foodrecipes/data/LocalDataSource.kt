@@ -2,7 +2,9 @@ package com.app.foodrecipes.data
 
 import com.app.foodrecipes.data.database.RecipesDao
 import com.app.foodrecipes.data.database.entities.FavoritesEntity
+import com.app.foodrecipes.data.database.entities.FoodJokeEntity
 import com.app.foodrecipes.data.database.entities.RecipesEntity
+import com.app.foodrecipes.models.FoodJoke
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -18,12 +20,20 @@ class LocalDataSource @Inject constructor(
         return recipesDao.readFavoriteRecipes()
     }
 
+    fun readFoodJoke(): Flow<List<FoodJokeEntity>>{
+        return recipesDao.readFoodJoke()
+    }
+
     suspend fun insertRecipes(recipesEntity: RecipesEntity) {
         recipesDao.insertRecipes(recipesEntity)
     }
 
     suspend fun insertFavoriteRecipes(favoritesEntity: FavoritesEntity) {
         recipesDao.insertFavoriteRecipe(favoritesEntity)
+    }
+
+    suspend fun insertFoodJoke(foodJokeEntity: FoodJokeEntity){
+        recipesDao.insertFoodJoke(foodJokeEntity)
     }
 
     suspend fun deleteFavoriteRecipe(favoritesEntity: FavoritesEntity) {
