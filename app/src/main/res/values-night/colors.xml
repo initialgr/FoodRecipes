@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#6200EA</color>
     <color name="colorPrimaryDark">#5502C8</color>
-    <color name="colorAccent">#9D46FF</color>   
+    <color name="colorAccent">#9D46FF</color>
 
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
@@ -21,37 +21,37 @@
     <color name="yellow">#ffC114</color>
     <color name="green">#00c980</color>
 
-    <!-- LIGHT THEME -->
+    <!-- DARK THEME -->
 
-    <color name="backgroundColor">@color/lightGray</color>
+    <color name="backgroundColor">@color/dark</color>
     <color name="transparent">#00FFFFFF</color>
-    
-    <color name="itemColor">@color/darker</color>
+
+    <color name="itemColor">@color/mediumGray</color>
 
     // Place Holder Color
-    <color name="placeHolderColor">@color/mediumGray</color>
+    <color name="placeHolderColor">@color/darker</color>
 
     // Custom Chip Style
-    <color name="checkedChipBackgroundColor">#206200EA</color>
-    <color name="chipBackgroundColor">@color/lightGray</color>
-    <color name="checkedChipTextColor">@color/colorPrimary</color>
-    <color name="chipTextColor">@color/darkGray</color>
+    <color name="checkedChipBackgroundColor">@color/dark</color>
+    <color name="chipBackgroundColor">@color/darker</color>
+    <color name="checkedChipTextColor">@color/lightGray</color>
+    <color name="chipTextColor">@color/lightGray</color>
 
     // Custom CardView Style
     <color name="strokeColor">@color/lightMediumGray</color>
-    <color name="cardBackgroundColor">@color/white</color>
+    <color name="cardBackgroundColor">@color/darker</color>
     <color name="cardBackgroundLightColor">#106200EA</color>
-    <color name="titleColor">@color/darker</color>
-    <color name="descriptionColor">@color/darkGray</color>
+    <color name="titleColor">@color/mediumGray</color>
+    <color name="descriptionColor">@color/mediumGray</color>
 
-    <color name="statusBarColor">@color/colorPrimaryDark</color>
-    <color name="contextualStatusBarColor">@color/darker</color>
-    <color name="contextualActionBarColor">@color/dark</color>
-    <color name="actionBarBackgroundColor">@color/colorPrimary</color>
+    <color name="statusBarColor">@color/black</color>
+    <color name="contextualStatusBarColor">@color/black</color>
+    <color name="contextualActionBarColor">@color/darker</color>
+    <color name="actionBarBackgroundColor">@color/darker</color>
 
     // Custom Bottom Navigation View Style
-    <color name="bottomNavBackground">@color/white</color>
-    <color name="bottomNavItemColor">@color/darkGray</color>
-    <color name="bottomNavCheckedItemColor">@color/colorPrimary</color>
+    <color name="bottomNavBackground">@color/darker</color>
+    <color name="bottomNavItemColor">@color/mediumGray</color>
+    <color name="bottomNavCheckedItemColor">@color/colorAccent</color>
 
 </resources>
